@@ -1,14 +1,11 @@
-FROM python:3.14.4-alpine
+FROM node:24.14.1-alpine
 
 WORKDIR /api
 
-RUN apk add --no-cache curl && \
-	curl -LsSf https://astral.sh/uv/install.sh | sh
+RUN corepack enable && corepack prepare pnpm@latest --activate
 
-ENV PATH="/root/.local/bin:$PATH"
+COPY package.json pnpm-lock.yaml ./
 
-COPY ./requirements.txt /api/requirements.txt
+RUN pnpm install --frozen-lockfile
 
-RUN uv pip install --system --no-cache -r requirements.txt
-
-CMD ["fastapi", "dev", "main.py", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["pnpm", "start:dev"]

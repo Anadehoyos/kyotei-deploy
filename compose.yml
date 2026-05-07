@@ -1,22 +1,31 @@
 services:
-    api:
+    backend-scms:
+      restart: unless-stopped
       build:
-        context: ../scms-api
+        context: ../scms-backend
         dockerfile: ../scms-deploy/api/Dockerfile
       volumes:
-        - ../scms-api:/api
+        - ../scms-backend:/api
+        - /api/node_modules
+      environment:
+        DB_API_HOST: api-db
+        DB_API_PORT: 5432
+        DB_WEBAPP_HOST: webapp-db
+        DB_WEBAPP_PORT: 5432
       ports:
-        - "${API_PORT}:8000"
+        - "${API_PORT}:3000"
       networks:
         - scms_api_network
+        - scms_webapp_network
 
-    webapp:
+    webapp-scms:
+      restart: unless-stopped
       build:
         context: ../scms-webapp
         dockerfile: ../scms-deploy/webapp/Dockerfile
       volumes:
         - ../scms-webapp:/webapp
-        - webapp-node-modules:/webapp/node_modules
+        - /webapp/node_modules
       ports:
         - "${WEBAPP_PORT}:5173"
       networks:
@@ -60,5 +69,5 @@ networks:
 volumes:
   api-db-vol:
   webapp-db-vol:
+  api-node-modules:
   webapp-node-modules:
-
