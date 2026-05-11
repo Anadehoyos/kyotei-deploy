@@ -1,11 +1,11 @@
 services:
-    backend-scms:
+    backend-kyotei:
       restart: unless-stopped
       build:
-        context: ../scms-backend
-        dockerfile: ../scms-deploy/api/Dockerfile
+        context: ../kyotei-backend
+        dockerfile: ../kyotei-deploy/api/Dockerfile
       volumes:
-        - ../scms-backend:/api
+        - ../kyotei-backend:/api
         - /api/node_modules
       environment:
         DB_API_HOST: api-db
@@ -15,26 +15,26 @@ services:
       ports:
         - "${API_PORT}:3000"
       networks:
-        - scms_api_network
-        - scms_webapp_network
+        - kyotei_api_network
+        - kyotei_webapp_network
 
-    webapp-scms:
+    webapp-kyotei:
       restart: unless-stopped
       build:
-        context: ../scms-webapp
-        dockerfile: ../scms-deploy/webapp/Dockerfile
+        context: ../kyotei-webapp
+        dockerfile: ../kyotei-deploy/webapp/Dockerfile
       volumes:
-        - ../scms-webapp:/webapp
+        - ../kyotei-webapp:/webapp
         - /webapp/node_modules
       ports:
         - "${WEBAPP_PORT}:5173"
       networks:
-        - scms_webapp_network
-        - scms_api_network
+        - kyotei_webapp_network
+        - kyotei_api_network
 
     webapp-db:
       image: postgres:17
-      container_name: scms_webapp_db
+      container_name: kyotei_webapp_db
       restart: unless-stopped
       environment:
         POSTGRES_USER: ${WEBAPP_DB_USER}
@@ -45,11 +45,11 @@ services:
       volumes:
         - webapp-db-vol:/var/lib/postgresql/data
       networks:
-        - scms_webapp_network
+        - kyotei_webapp_network
 
     api-db:
       image: postgres:17
-      container_name: scms_api_db
+      container_name: kyotei_api_db
       restart: unless-stopped
       environment:
         POSTGRES_USER: ${API_DB_USER}
@@ -60,11 +60,11 @@ services:
       volumes:
         - api-db-vol:/var/lib/postgresql/data
       networks:
-        - scms_api_network
+        - kyotei_api_network
 
 networks:
-  scms_webapp_network: {}
-  scms_api_network: {}
+  kyotei_webapp_network: {}
+  kyotei_api_network: {}
 
 volumes:
   api-db-vol:
