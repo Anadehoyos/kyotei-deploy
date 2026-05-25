@@ -7,4 +7,4 @@ COPY package.json pnpm-lock.yaml ./
 RUN npm install -g pnpm@latest && \
 	pnpm install
 
-CMD [ "pnpm", "run", "dev" ]
+CMD [ "pnpm", "run", "dev", "--", "--host", "--port", "8000" ]

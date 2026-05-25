@@ -27,7 +27,7 @@ services:
         - ../kyotei-webapp:/webapp
         - /webapp/node_modules
       ports:
-        - "${WEBAPP_PORT}:5173"
+        - "${WEBAPP_PORT}:8000"
       networks:
         - kyotei_webapp_network
         - kyotei_api_network
