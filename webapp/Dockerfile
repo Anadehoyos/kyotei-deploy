@@ -5,6 +5,6 @@ WORKDIR /webapp
 COPY package.json pnpm-lock.yaml ./
 
 RUN npm install -g pnpm@latest && \
-	pnpm install
+	pnpm install --ignore-scripts
 
-CMD [ "pnpm", "run", "dev", "--", "--host", "--port", "8000" ]
+CMD [ "pnpm", "exec", "vite", "--host", "--port", "8000" ]
