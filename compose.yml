@@ -12,6 +12,8 @@ services:
         DB_API_PORT: 5432
         DB_WEBAPP_HOST: webapp-db
         DB_WEBAPP_PORT: 5432
+        SMTP_HOST: mailhog
+        SMTP_PORT: 1025
       ports:
         - "${API_PORT}:3000"
       networks:
@@ -61,6 +63,15 @@ services:
         - api-db-vol:/var/lib/postgresql/data
       networks:
         - kyotei_api_network
+
+    mailhog:
+        image: mailhog/mailhog:latest
+        restart: unless-stopped
+        ports:
+          - 1025:1025
+          - 8025:8025
+        networks: 
+          - kyotei_api_network
 
 networks:
   kyotei_webapp_network: {}
