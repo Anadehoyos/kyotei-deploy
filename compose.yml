@@ -8,6 +8,7 @@ services:
         - ../kyotei-backend:/api
         - /api/node_modules
       environment:
+        PNPM_CONFIG_VERIFY_DEPS_BEFORE_RUN: "false"
         DB_API_HOST: api-db
         DB_API_PORT: 5432
         DB_WEBAPP_HOST: webapp-db
@@ -25,6 +26,8 @@ services:
       build:
         context: ../kyotei-webapp
         dockerfile: ../kyotei-deploy/webapp/Dockerfile
+      environment:
+        PNPM_CONFIG_VERIFY_DEPS_BEFORE_RUN: "false"
       volumes:
         - ../kyotei-webapp:/webapp
         - /webapp/node_modules
