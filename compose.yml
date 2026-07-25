@@ -1,9 +1,7 @@
 services:
     backend-kyotei:
       restart: unless-stopped
-      build:
-        context: ../kyotei-backend
-        dockerfile: ../kyotei-deploy/api/Dockerfile
+      build: ../kyotei-backend/
       volumes:
         - ../kyotei-backend:/api
         - /api/node_modules
@@ -23,9 +21,7 @@ services:
 
     webapp-kyotei:
       restart: unless-stopped
-      build:
-        context: ../kyotei-webapp
-        dockerfile: ../kyotei-deploy/webapp/Dockerfile
+      build: ../kyotei-webapp/
       environment:
         PNPM_CONFIG_VERIFY_DEPS_BEFORE_RUN: "false"
       volumes:
@@ -73,7 +69,7 @@ services:
         ports:
           - 1025:1025
           - 8025:8025
-        networks: 
+        networks:
           - kyotei_api_network
 
 networks:
@@ -83,5 +79,3 @@ networks:
 volumes:
   api-db-vol:
   webapp-db-vol:
-  api-node-modules:
-  webapp-node-modules:
