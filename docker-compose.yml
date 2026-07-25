@@ -1,9 +1,9 @@
 services:
     backend-kyotei:
       restart: unless-stopped
-      build: ../kyotei-backend/
+      build: ../backend/
       volumes:
-        - ../kyotei-backend:/api
+        - ../backend:/api
         - /api/node_modules
       environment:
         PNPM_CONFIG_VERIFY_DEPS_BEFORE_RUN: "false"
@@ -21,11 +21,11 @@ services:
 
     webapp-kyotei:
       restart: unless-stopped
-      build: ../kyotei-webapp/
+      build: ../webapp/
       environment:
         PNPM_CONFIG_VERIFY_DEPS_BEFORE_RUN: "false"
       volumes:
-        - ../kyotei-webapp:/webapp
+        - ../webapp:/webapp
         - /webapp/node_modules
       ports:
         - "${WEBAPP_PORT}:8000"
